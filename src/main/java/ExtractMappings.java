@@ -34,7 +34,6 @@ public class ExtractMappings {
         StaticJavaParser.getConfiguration().setSymbolResolver(symbolSolver);
     }
     /**
-     * 获取包名
      * @param file
      * @return
      */
@@ -43,9 +42,12 @@ public class ExtractMappings {
         String filePath = file.toString();
         String[] firstSplit = filePath.split("\\\\");
         String packageName = "";
-        for(int i=6;i<firstSplit.length-1;i++)
-        {
-            packageName+=firstSplit[i]+".";
+        for(int i=0;i<firstSplit.length-1;i++) {
+            if (firstSplit[i].equals(config.sourceVersion)) {
+                for (int j = i + 1; j < firstSplit.length - 1; j++) {
+                    packageName += firstSplit[j] + ".";
+                }
+            }
         }
         api.setPackageName(packageName);
         return  null;
@@ -56,9 +58,13 @@ public class ExtractMappings {
         String filePath = path;
         String[] firstSplit = filePath.split("\\\\");
         String fullName = "";
-        for(int i=6;i<firstSplit.length-1;i++)
+        for(int i=0;i<firstSplit.length-1;i++)
         {
-            fullName+=firstSplit[i]+".";
+            if (firstSplit[i] == config.sourceVersion) {
+                for (int j = i + 1; j < firstSplit.length - 1; j++) {
+                    fullName += firstSplit[i] + ".";
+                }
+            }
         }
         fullName+=className;
         return  fullName;
